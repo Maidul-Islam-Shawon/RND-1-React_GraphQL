@@ -11,6 +11,7 @@ const CustomerList = ({ customersData }) => {
           <th>Email</th>
           <th>Contact Number</th>
           <th>Address</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -21,6 +22,11 @@ const CustomerList = ({ customersData }) => {
             <td>{customer.email}</td>
             <td>{customer.contactNumber}</td>
             <td>{customer.address}</td>
+            <td style={{ textAlign: "center", fontSize: "20px" }}>
+              <i class="fas fa-hand-pointer"></i> &nbsp;
+              <i class="fas fa-edit"></i> &nbsp;
+              <i class="fas fa-trash-alt"></i>
+            </td>
           </tr>
         ))}
       </tbody>

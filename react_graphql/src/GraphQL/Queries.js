@@ -5,3 +5,10 @@ export const GET_ALL_CUSTOMERS = `
         }
     }
 `;
+
+export const CREATE_CUSTOMER = `
+  mutation CreateCustomer($Customer:CustomerInput!){
+    createCustomer(customer:$Customer){
+      id name age email contactNumber address
+    }
+}`;

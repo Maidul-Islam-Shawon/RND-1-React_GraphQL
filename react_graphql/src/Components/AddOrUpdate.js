@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import { Col, Container, Form, Button } from "react-bootstrap";
-
-const CREATE_CUSTOMER = `
-  mutation CreateCustomer($Customer:CustomerInput!){
-    createCustomer(customer:$Customer){
-      id name age email contactNumber address
-    }
-}`;
+import { useHistory } from "react-router-dom";
+import { CREATE_CUSTOMER } from "../GraphQL/Queries";
+import { AddedMessage } from "../utils/TostifyMessage";
 
 const AddOrUpdate = () => {
+  let history = useHistory();
   const [state, setState] = useState({
     name: "",
     age: "",
@@ -17,7 +14,7 @@ const AddOrUpdate = () => {
     address: "",
   });
   const [validated, setValidated] = useState(false);
-  const [error, setError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (event) => {
     let name = event.target.name;
@@ -31,11 +28,6 @@ const AddOrUpdate = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     validationChecking(event);
-    debugger;
-    if (state.age) {
-      var _age = Number(state.age);
-      setState({ age: _age });
-    }
 
     fetch("https://localhost:44371/graphql", {
       method: "POST",
@@ -47,10 +39,14 @@ const AddOrUpdate = () => {
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
+        if (result.data) {
+          AddedMessage();
+          history.push("/");
+        }
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => setErrorMessage(err.message));
   };
+  console.log(validated);
 
   function validationChecking(event) {
     const form = event.currentTarget;
@@ -58,10 +54,17 @@ const AddOrUpdate = () => {
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+      //setValidated(true);
     }
     setValidated(true);
   }
-
+  const renderErrorMessage = () => {
+    if (errorMessage) {
+      <div className="errorMessage">
+        <b>Error:</b> {errorMessage}!
+      </div>;
+    }
+  };
   return (
     <Container>
       <h2 className="title">Add a Customer</h2>
@@ -167,6 +170,7 @@ const AddOrUpdate = () => {
           Create
         </Button>
       </Form>
+      {renderErrorMessage()}
     </Container>
   );
 };

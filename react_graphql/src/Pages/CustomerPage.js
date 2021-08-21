@@ -63,8 +63,12 @@ const CustomerPage = () => {
       <Container>
         <h2 className="title">Customers List</h2>
         <Link to="/AddOrUpdate">
-          <Button variant="success" size="small">
-            Add
+          <Button
+            variant="success"
+            size="small"
+            style={{ margin: "0 0 10px 0" }}
+          >
+            <i class="fas fa-plus-square"></i> Add
           </Button>
         </Link>
         {renderCustomerData()}
