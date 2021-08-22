@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Form, Button } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import { CREATE_CUSTOMER } from "../GraphQL/Queries";
-import { AddedMessage } from "../utils/TostifyMessage";
+import { Link, useHistory } from "react-router-dom";
+import { CREATE_CUSTOMER, GET_CUSTOMER_BY_ID, UPDATE_CUSTOMER } from "../GraphQL/Queries";
+import { AddedMessage, UpdateMessage } from "../utils/TostifyMessage";
 
-const AddOrUpdate = () => {
+
+
+
+
+const AddOrUpdate = (props) => {
   let history = useHistory();
   const [state, setState] = useState({
     name: "",
@@ -16,6 +20,8 @@ const AddOrUpdate = () => {
   const [validated, setValidated] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const CustomerId = props.match.params.id;
+
   const handleChange = (event) => {
     let name = event.target.name;
     let value = event.target.value;
@@ -25,28 +31,69 @@ const AddOrUpdate = () => {
 
   console.log(state);
 
+  useEffect(() => {
+    if (CustomerId) {
+      fetch("https://localhost:44371/graphql", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: GET_CUSTOMER_BY_ID, variables: { Id: CustomerId } }),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          setState(result.data.customerByid);
+        })
+        .catch((err) =>
+          setErrorMessage(err.message)
+        );
+    }
+
+  }, [CustomerId]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     validationChecking(event);
+    //debugger;
 
-    fetch("https://localhost:44371/graphql", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        query: CREATE_CUSTOMER,
-        variables: { Customer: state },
-      }),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        if (result.data) {
-          AddedMessage();
-          history.push("/");
-        }
+    if (CustomerId) {
+      fetch("https://localhost:44371/graphql", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: UPDATE_CUSTOMER,
+          variables: { Id: CustomerId, CustomerData: state },
+        }),
       })
-      .catch((err) => setErrorMessage(err.message));
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.data) {
+            UpdateMessage();
+            history.push("/");
+          }
+        })
+        .catch((err) => setErrorMessage(err.message));
+
+    }
+    else {
+      fetch("https://localhost:44371/graphql", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: CREATE_CUSTOMER,
+          variables: { Customer: state },
+        }),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          if (result.data) {
+            AddedMessage();
+            history.push("/");
+          }
+        })
+        .catch((err) => setErrorMessage(err.message));
+    }
+
   };
-  console.log(validated);
+  //console.log(validated);
 
   function validationChecking(event) {
     const form = event.currentTarget;
@@ -65,6 +112,20 @@ const AddOrUpdate = () => {
       </div>;
     }
   };
+
+  let ButtonName;
+  if (CustomerId) {
+    ButtonName = <Button type="submit"
+      variant="info"
+      size="small"
+      style={{ width: "8rem" }}>Update</Button>;
+  } else {
+    ButtonName = <Button type="Submit"
+      variant="success"
+      size="small"
+      style={{ width: "8rem" }}>Submit</Button>;
+  }
+
   return (
     <Container>
       <h2 className="title">Add a Customer</h2>
@@ -151,24 +212,10 @@ const AddOrUpdate = () => {
           </Form.Group>
         </Form.Row>
 
-        {/* <Form.Group>
-          <Form.Check
-            required
-            label="Agree to terms and conditions"
-            feedback="You must agree before Submit."
-            onChange={handleCheck}
-          />
-        </Form.Group> */}
+        {ButtonName} &nbsp; |  &nbsp;<Link to={`/`} style={{ color: "green" }}>
+          Back
+        </Link>
 
-        {/* {ButtonName} */}
-        <Button
-          type="Submit"
-          variant="success"
-          size="small"
-          style={{ width: "8rem" }}
-        >
-          Create
-        </Button>
       </Form>
       {renderErrorMessage()}
     </Container>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const CustomerList = ({ customersData }) => {
   return (
@@ -23,9 +24,15 @@ const CustomerList = ({ customersData }) => {
             <td>{customer.contactNumber}</td>
             <td>{customer.address}</td>
             <td style={{ textAlign: "center", fontSize: "20px" }}>
-              <i class="fas fa-hand-pointer"></i> &nbsp;
-              <i class="fas fa-edit"></i> &nbsp;
-              <i class="fas fa-trash-alt"></i>
+              <Link to={`/Customer/${customer.id}`} style={{ color: "green" }}>
+                <i className="fas fa-hand-pointer"></i>
+              </Link> &nbsp;
+              <Link to={`/AddOrUpdate/${customer.id}`} style={{ color: "orange" }}>
+                <i className="fas fa-edit"></i>
+              </Link> &nbsp;
+              <Link to={`/Customer/Delete/${customer.id}`} style={{ color: "orangered" }}>
+                <i className="fas fa-trash-alt"></i>
+              </Link>
             </td>
           </tr>
         ))}

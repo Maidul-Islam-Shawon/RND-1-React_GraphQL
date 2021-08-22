@@ -31,10 +31,10 @@ const CustomerPage = () => {
       .catch((err) =>
         err.message !== ""
           ? setState({
-              customersData: [],
-              loading: false,
-              hasError: true,
-            })
+            customersData: [],
+            loading: false,
+            hasError: true,
+          })
           : setErrorMessage(err.message)
       );
   }, []);
@@ -68,7 +68,7 @@ const CustomerPage = () => {
             size="small"
             style={{ margin: "0 0 10px 0" }}
           >
-            <i class="fas fa-plus-square"></i> Add
+            <i className="fas fa-plus-square"></i> Add
           </Button>
         </Link>
         {renderCustomerData()}

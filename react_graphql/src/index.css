@@ -31,3 +31,9 @@ h2.title {
   text-align: center;
   margin-top: 50px;
 }
+
+h4{color:slateblue}
+
+h4>b{
+  color: black;
+}
