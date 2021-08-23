@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, Form, Button } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import { CREATE_CUSTOMER, GET_CUSTOMER_BY_ID, UPDATE_CUSTOMER } from "../GraphQL/Queries";
+import {
+  CREATE_CUSTOMER,
+  GET_CUSTOMER_BY_ID,
+  UPDATE_CUSTOMER,
+} from "../GraphQL/Queries";
 import { AddedMessage, UpdateMessage } from "../utils/TostifyMessage";
-
-
-
-
 
 const AddOrUpdate = (props) => {
   let history = useHistory();
@@ -36,17 +36,17 @@ const AddOrUpdate = (props) => {
       fetch("https://localhost:44371/graphql", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: GET_CUSTOMER_BY_ID, variables: { Id: CustomerId } }),
+        body: JSON.stringify({
+          query: GET_CUSTOMER_BY_ID,
+          variables: { Id: CustomerId },
+        }),
       })
         .then((res) => res.json())
         .then((result) => {
           setState(result.data.customerByid);
         })
-        .catch((err) =>
-          setErrorMessage(err.message)
-        );
+        .catch((err) => setErrorMessage(err.message));
     }
-
   }, [CustomerId]);
 
   const handleSubmit = (event) => {
@@ -71,9 +71,7 @@ const AddOrUpdate = (props) => {
           }
         })
         .catch((err) => setErrorMessage(err.message));
-
-    }
-    else {
+    } else {
       fetch("https://localhost:44371/graphql", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -91,7 +89,6 @@ const AddOrUpdate = (props) => {
         })
         .catch((err) => setErrorMessage(err.message));
     }
-
   };
   //console.log(validated);
 
@@ -115,15 +112,27 @@ const AddOrUpdate = (props) => {
 
   let ButtonName;
   if (CustomerId) {
-    ButtonName = <Button type="submit"
-      variant="info"
-      size="small"
-      style={{ width: "8rem" }}>Update</Button>;
+    ButtonName = (
+      <Button
+        type="submit"
+        variant="info"
+        size="small"
+        style={{ width: "8rem" }}
+      >
+        Update
+      </Button>
+    );
   } else {
-    ButtonName = <Button type="Submit"
-      variant="success"
-      size="small"
-      style={{ width: "8rem" }}>Submit</Button>;
+    ButtonName = (
+      <Button
+        type="Submit"
+        variant="success"
+        size="small"
+        style={{ width: "8rem" }}
+      >
+        Submit
+      </Button>
+    );
   }
 
   return (
@@ -163,7 +172,6 @@ const AddOrUpdate = (props) => {
             </Form.Control.Feedback>
           </Form.Group>
         </Form.Row>
-
         <Form.Row>
           <Form.Group as={Col} md="6" controlId="validationCustom03">
             <Form.Label>Email</Form.Label>
@@ -194,7 +202,6 @@ const AddOrUpdate = (props) => {
             </Form.Control.Feedback>
           </Form.Group>
         </Form.Row>
-
         <Form.Row>
           <Form.Group as={Col} md="12" controlId="validationCustom05">
             <Form.Label>Address</Form.Label>
@@ -211,11 +218,10 @@ const AddOrUpdate = (props) => {
             </Form.Control.Feedback>
           </Form.Group>
         </Form.Row>
-
-        {ButtonName} &nbsp; |  &nbsp;<Link to={`/`} style={{ color: "green" }}>
+        {ButtonName} &nbsp; | &nbsp;
+        <Link to={`/`} style={{ color: "green" }}>
           Back
         </Link>
-
       </Form>
       {renderErrorMessage()}
     </Container>
