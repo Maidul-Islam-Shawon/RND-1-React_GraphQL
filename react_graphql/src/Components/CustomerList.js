@@ -26,11 +26,19 @@ const CustomerList = ({ customersData }) => {
             <td style={{ textAlign: "center", fontSize: "20px" }}>
               <Link to={`/Customer/${customer.id}`} style={{ color: "green" }}>
                 <i className="fas fa-hand-pointer"></i>
-              </Link> &nbsp;
-              <Link to={`/AddOrUpdate/${customer.id}`} style={{ color: "orange" }}>
+              </Link>{" "}
+              &nbsp;
+              <Link
+                to={`/AddOrUpdate/${customer.id}`}
+                style={{ color: "orange" }}
+              >
                 <i className="fas fa-edit"></i>
-              </Link> &nbsp;
-              <Link to={`/Customer/Delete/${customer.id}`} style={{ color: "orangered" }}>
+              </Link>{" "}
+              &nbsp;
+              <Link
+                to={`/Customer/Delete/${customer.id}`}
+                style={{ color: "orangered" }}
+              >
                 <i className="fas fa-trash-alt"></i>
               </Link>
             </td>

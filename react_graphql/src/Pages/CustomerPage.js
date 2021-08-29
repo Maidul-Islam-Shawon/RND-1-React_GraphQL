@@ -31,10 +31,10 @@ const CustomerPage = () => {
       .catch((err) =>
         err.message !== ""
           ? setState({
-            customersData: [],
-            loading: false,
-            hasError: true,
-          })
+              customersData: [],
+              loading: false,
+              hasError: true,
+            })
           : setErrorMessage(err.message)
       );
   }, []);
