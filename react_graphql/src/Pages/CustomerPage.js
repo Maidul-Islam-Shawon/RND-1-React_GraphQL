@@ -3,6 +3,7 @@ import { Container, Spinner, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CustomerList from "../Components/CustomerList";
 import { GET_ALL_CUSTOMERS } from "../GraphQL/Queries";
+import { SERVER_URL } from "../utils/ServerUrl";
 
 const CustomerPage = () => {
   const [state, setState] = useState({
@@ -13,7 +14,7 @@ const CustomerPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    fetch("https://localhost:44371/graphql", {
+    fetch(SERVER_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query: GET_ALL_CUSTOMERS }),

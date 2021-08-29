@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, Container } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { DELETE_CUSTOMER, GET_CUSTOMER_BY_ID } from "../GraphQL/Queries";
+import { SERVER_URL } from "../utils/ServerUrl";
 import { DeleteMessage } from "../utils/TostifyMessage";
 
 const Delete = (props) => {
@@ -20,7 +21,7 @@ const Delete = (props) => {
 
   useEffect(() => {
     if (CustomerId) {
-      fetch("https://localhost:44371/graphql", {
+      fetch(SERVER_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -38,7 +39,7 @@ const Delete = (props) => {
 
   const handleSubmit = () => {
     if (CustomerId) {
-      fetch("https://localhost:44371/graphql", {
+      fetch(SERVER_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -6,6 +6,7 @@ import {
   GET_CUSTOMER_BY_ID,
   UPDATE_CUSTOMER,
 } from "../GraphQL/Queries";
+import { SERVER_URL } from "../utils/ServerUrl";
 import { AddedMessage, UpdateMessage } from "../utils/TostifyMessage";
 
 const AddOrUpdate = (props) => {
@@ -33,7 +34,7 @@ const AddOrUpdate = (props) => {
 
   useEffect(() => {
     if (CustomerId) {
-      fetch("https://localhost:44371/graphql", {
+      fetch(SERVER_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -55,7 +56,7 @@ const AddOrUpdate = (props) => {
     //debugger;
 
     if (CustomerId) {
-      fetch("https://localhost:44371/graphql", {
+      fetch(SERVER_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -72,7 +73,7 @@ const AddOrUpdate = (props) => {
         })
         .catch((err) => setErrorMessage(err.message));
     } else {
-      fetch("https://localhost:44371/graphql", {
+      fetch(SERVER_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

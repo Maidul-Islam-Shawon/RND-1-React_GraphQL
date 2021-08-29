@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { GET_CUSTOMER_BY_ID } from "../GraphQL/Queries";
+import { SERVER_URL } from "../utils/ServerUrl";
 
 const Detail = (props) => {
   const [state, setState] = useState({
@@ -18,7 +19,7 @@ const Detail = (props) => {
 
   useEffect(() => {
     if (CustomerId) {
-      fetch("https://localhost:44371/graphql", {
+      fetch(SERVER_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
