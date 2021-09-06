@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: netcore-graph-frontend-service
+spec:
+  selector:
+    app: netcore-graph-frontend-pod
+  ports:
+    - port: 5006
+      targetPort: 3000
+  type: LoadBalancer

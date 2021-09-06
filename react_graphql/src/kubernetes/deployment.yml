@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netcore-graph-frontend-deployment
+spec:
+  # replicas: 2
+  selector:
+    matchLabels:
+      app: netcore-graph-frontend-pod
+  template:
+    metadata:
+      labels:
+        app: netcore-graph-frontend-pod
+    spec:
+      containers:
+        - name: netcore-graph-frontend-container
+          image: localhost:5000/frontend:latest
+          ports:
+            - containerPort: 3000
